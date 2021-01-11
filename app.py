@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 import random
 
@@ -88,11 +88,11 @@ parser=reqparse.RequestParser()
 
 class MedicalData(Resource):
     def post(self):
-        parser.add_argument("state")
+        body = request.get_json()
         args = parser.parse_args()
-        _state=args["state"]
+        state=body["state"]
         diseases = {'A': AcuteAsthma, 'B': Bronchiectasis,'C':CongenitalHeartDefect,'D':Diabetes,'H':Hypoxemia,'N':MedRecN,'P':Prediabetes}
-        return diseases.get(_state, 'default')
+        return diseases.get(state, 'default')
     
  
 api.add_resource(MedicalData,'/medidata/')
