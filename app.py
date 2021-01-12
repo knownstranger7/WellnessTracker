@@ -87,7 +87,7 @@ AcuteAsthma = {
 parser=reqparse.RequestParser()
 
 class MedicalData(Resource):
-    def post(self):
+    def get(self):
         body = request.get_json()
         args = parser.parse_args()
         state=body["state"]
