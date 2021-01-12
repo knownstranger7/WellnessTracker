@@ -87,15 +87,12 @@ AcuteAsthma = {
 parser=reqparse.RequestParser()
 
 class MedicalData(Resource):
-    def get(self):
-        body = request.get_json()
-        args = parser.parse_args()
-        state=body["state"]
+    def get(self, state):
         diseases = {'A': AcuteAsthma, 'B': Bronchiectasis,'C':CongenitalHeartDefect,'D':Diabetes,'H':Hypoxemia,'N':MedRecN,'P':Prediabetes}
-        return diseases.get(state, 'default')
+        return diseases[state]
     
  
-api.add_resource(MedicalData,'/medidata/')
+api.add_resource(MedicalData,'/medidata/<string:state>')
 
 if __name__ == "__main__":    
     app.run()
