@@ -118,7 +118,7 @@ class MedicalData(Resource):
 api.add_resource(MedicalData, '/medidata/<string:state>')
 
    
-@app.route("/chdpredicton")
+@app.route("/chdprediction")
 @cross_origin(support_credentials=True)
 def predictingchd():
     chdresponse = {}
