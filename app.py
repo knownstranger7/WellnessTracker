@@ -1,5 +1,7 @@
-from flask import Flask, request
+from flask import Flask, request,jsonify
 from flask_restful import Resource, Api, reqparse
+from chd import chdprediction
+from flask_cors import CORS, cross_origin
 import random
 
 app = Flask(__name__)
@@ -114,6 +116,21 @@ class MedicalData(Resource):
 
 
 api.add_resource(MedicalData, '/medidata/<string:state>')
+
+   
+@app.route("/chdpredicton")
+@cross_origin(support_credentials=True)
+def predictingchd():
+    chdresponse = {}
+    heartrate = request.args.get('heartrate')
+    bloodpressure = request.args.get('bp')
+    cholesterol = request.args.get('chol')
+    chdrisk = chdprediction().predict(([[int(heartrate), int(bloodpressure), int(cholesterol)]]))
+    if chdrisk == 0:
+        chdresponse['chd'] = "Negative"
+    else:
+        chdresponse['chd'] = "Positive"
+    return jsonify(chdresponse)
 
 if __name__ == "__main__":
     app.run()
